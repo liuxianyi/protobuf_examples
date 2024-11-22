@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+message MyMessage {
+    string name = 1;
+    int32 id = 2;
+}
+
+message NativeLowestCostContext {
+    uint32 author_industry = 1;
+    LowestCostRlFeatures rl_features = 2;
+}
+
+message LowestCostRlFeatures {
+  int32 now_time_step = 1;
+  repeated RawFeature raw_features = 2;
+  float dt_model_pred = 3; // 强化学习模型预估值
+  int64 dt_send_ts = 4; // 强化学习模型请求时间戳
+  int64 dt_recv_ts = 5; // 强化学习模型返回时间戳
+  int64 dt_cost_ts = 6; // 强化学习整体花费时间
+}
+
+message RawFeature {
+  float past_pv_ratio = 1;
+  float past_cost_ratio = 2;
+  float p_error = 3;
+  float d_error = 4;
+  float bid_ratio = 5;
+  int32 time_step = 6;
+  float total_pred_cv = 7;
+}
