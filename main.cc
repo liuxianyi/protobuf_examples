@@ -121,7 +121,8 @@ bool LowestCostRlFeatureTask::PushFeatures(NativeLowestCostContext* p_bid_contex
     raw_features_ptr->set_past_cost_ratio(past_cost_ratio);
     std::cout << "goog rlfeat: "
               << "past_pv_ratio: " << past_pv_ratio
-              << "past_cost_ratio: " << past_cost_ratio;
+              << "past_cost_ratio: " << past_cost_ratio
+              << std::endl;
   // } else {
     // raw_features_ptr->set_past_pv_ratio(1 - past_pv_ratio);
     // raw_features_ptr->set_past_cost_ratio(1 - past_cost_ratio);
@@ -244,7 +245,8 @@ bool LowestCostRlFeatureTask::ComputeFeatures(
               << "pre_past_pv_ratio: " << pre_past_pv_ratio
               << "remaining_pv_ratio: " << remaining_pv_ratio
               << "pre_past_cost_ratio: " << pre_past_cost_ratio
-              << "remaining_budget_ratio" << remaining_budget_ratio;
+              << "remaining_budget_ratio" << remaining_budget_ratio
+              << std::endl;
     float pv_ratio_three_speed = (pre_4_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_4_rn - pre_rn);
     float cost_ratio_three_speed = (pre_4_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_4_rn - pre_rn);
     float bid_ratio_three_speed = (pre_4_bid_ratio - pre_bid_ratio) * 1.0 / (pre_4_rn - pre_rn);
@@ -290,7 +292,8 @@ bool LowestCostRlFeatureTask::ComputeFeatures(
           << "pre_10_past_cost_ratio: " << pre_10_past_cost_ratio
           << "pre_10_bid_ratio: "<< pre_10_bid_ratio
           << "pre_23_past_pv_ratio: " << pre_23_past_pv_ratio
-          << "pre_23_past_cost_ratio: " << pre_23_past_cost_ratio;
+          << "pre_23_past_cost_ratio: " << pre_23_past_cost_ratio
+          << std::endl;
 
     p_error = (p_error - state_mean[0]) / state_std[0];
     d_error = (d_error - state_mean[1]) / state_std[1];
