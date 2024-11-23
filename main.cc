@@ -247,14 +247,23 @@ bool LowestCostRlFeatureTask::ComputeFeatures(
               << "pre_past_cost_ratio: " << pre_past_cost_ratio
               << "remaining_budget_ratio" << remaining_budget_ratio
               << std::endl;
-    float pv_ratio_three_speed = (pre_4_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_4_rn - pre_rn);
-    float cost_ratio_three_speed = (pre_4_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_4_rn - pre_rn);
-    float bid_ratio_three_speed = (pre_4_bid_ratio - pre_bid_ratio) * 1.0 / (pre_4_rn - pre_rn);
-    float pv_ratio_nine_speed = (pre_10_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_10_rn - pre_rn);
-    float cost_ratio_nine_speed = (pre_10_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_10_rn - pre_rn);
-    float bid_ratio_nine_speed = (pre_10_bid_ratio - pre_bid_ratio) * 1.0 / (pre_10_rn - pre_rn);
-    float pv_ratio_speed = (pre_23_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_23_rn - pre_rn);
-    float cost_ratio_speed = (pre_23_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_23_rn - pre_rn);
+    float pv_ratio_three_speed = pre_4_rn - pre_rn >= 0? 0:
+                                (pre_4_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_4_rn - pre_rn);
+    float cost_ratio_three_speed = pre_4_rn - pre_rn >= 0? 0:
+                                (pre_4_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_4_rn - pre_rn);
+    float bid_ratio_three_speed = pre_4_rn - pre_rn >= 0? 0:
+                                (pre_4_bid_ratio - pre_bid_ratio) * 1.0 / (pre_4_rn - pre_rn);
+    float pv_ratio_nine_speed = pre_10_rn - pre_rn >= 0? 0:
+                                (pre_10_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_10_rn - pre_rn);
+    float cost_ratio_nine_speed = pre_10_rn - pre_rn >= 0? 0:
+                                (pre_10_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_10_rn - pre_rn);
+    float bid_ratio_nine_speed = pre_10_rn - pre_rn >= 0? 0:
+                                (pre_10_bid_ratio - pre_bid_ratio) * 1.0 / (pre_10_rn - pre_rn);
+    float pv_ratio_speed = pre_23_rn - pre_rn >= 0? 0:
+                          (pre_23_past_pv_ratio - pre_past_pv_ratio) * 1.0 / (pre_23_rn - pre_rn);
+    float cost_ratio_speed = pre_23_rn - pre_rn >= 0? 0:
+                          (pre_23_past_cost_ratio - pre_past_cost_ratio) * 1.0 / (pre_23_rn - pre_rn);
+
     float sliding_4_avg_bid_ratio = sliding_4_avg_bid_ratio_list[i];
     float sliding_10_avg_bid_ratio = sliding_10_avg_bid_ratio_list[i];
     float sliding_4_std_bid_ratio = sliding_4_std_bid_ratio_list[i];
