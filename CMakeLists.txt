@@ -1,19 +1,35 @@
-cmake_minimum_required(VERSION 3.31.0)
-set(CMAKE_CXX_STANDARD 17)
-project( rl_test )
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
-set(Protobuf_PROTOC_EXECUTABLE "/opt/homebrew/bin/protoc")
+project(my_project)
+set(CMAKE_CXX_STANDARD 14)
+# 查找 protobuf
 find_package(Protobuf REQUIRED)
 
-# 设置 proto 文件
-set(PROTO_FILES message.proto)
+if (PROTOBUF_FOUND)
+    message("protobuf found")
+else ()
+    message(FATAL_ERROR "Cannot find Protobuf")
+endif ()
 
-# 生成 C++ 代码
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILES})
+# 编译 proto 为 .cpp 和 .h
+file(GLOB NART_PROTOS *.proto)
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS ${NART_PROTOS})
 
-# 添加可执行文件
-add_executable(my_executable main.cc ${PROTO_SRCS} ${PROTO_HDRS})
+message("PROTO_SRCS = ${PROTO_SRCS}")
+message("PROTO_HDRS = ${PROTO_HDRS}")
 
-# 链接 protobuf 库
-target_link_libraries(my_executable ${Protobuf_LIBRARIES})
+# 将PROTO_SRCS生成静态库nart_proto.a文件
+add_library(nart_proto STATIC ${PROTO_SRCS})
+
+
+
+
+target_include_directories(nart_proto
+        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+        PUBLIC ${PROTOBUF_INCLUDE_DIRS}) # 引入头文件
+
+message("PROTOBUF_INCLUDE_DIRS = ${PROTOBUF_INCLUDE_DIRS}")
+
+add_executable(test main.cc ${PROTO_SRCS} ${PROTO_HDRS} )
+target_link_libraries(test nart_proto ${PROTOBUF_LIBRARIES}) # 引入库文件
